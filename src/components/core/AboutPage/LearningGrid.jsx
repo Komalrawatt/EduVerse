@@ -50,13 +50,13 @@ const LearningGridArray = [
 
 const LearningGrid = () => {
   return (
-    <div className='w-11/12 grid mx-auto max-w-maxContent grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-0 mt-20'>  
+    <div className=' grid mx-auto  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-0 mt-20 mb-10 lg:w-fit'>  
         {
 
             LearningGridArray.map((card, index) => (
                 <div key={index} 
-                    className={`${index === 0 && "lg:col-span-2"}
-                    ${card.order%2 === 1 ? "bg-richblack-700" : "bg-richblack-800"}
+                    className={`${index === 0 && "lg:col-span-2 lg:h-[280px] p-5"}
+                    ${card.order%2 === 1 ? "bg-richblack-700 lg:h-[280px] p-5" : "bg-richblack-800 lg:h-[250px] p-5"}
                     ${card.order === 3 && "lg:col-start-2"}
                     ${card.order < 0 && "bg-transparent"}
                     lg:h-[290px] p-5
@@ -78,11 +78,11 @@ const LearningGrid = () => {
                                 </CTAButton>
                             </div>
                         </div>) : 
-                        (<div className='flexflex-col gap-8 p-5'>
-                            <h1 className='text-[18px] font-semibold max-w-[160px]'>
+                        (<div className='flex flex-col gap-8 p-5'>
+                            <h1 className='text-richblack-5 text-[18px] font-semibold max-w-[160px] text-lg'>
                                 {card.heading}
                             </h1>
-                            <p className='text-richblack-300 text-[14px] mt-7'>
+                            <p className='text-richblack-300 text-[14px] mt-7 font-medium'>
                                 {card.description}
                             </p>
                         </div>)

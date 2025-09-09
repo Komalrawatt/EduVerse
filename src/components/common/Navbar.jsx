@@ -8,7 +8,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai"
 import ProfileDropDown from "../core/Auth/ProfileDropDown"
 import { useEffect } from 'react'
 import { categories } from '../../services/apis'
-import { apiConnector } from "../../services/apiconnector"
+import { APIConnector } from "../../services/apiconnector"
 import { IoIosArrowDropdownCircle } from "react-icons/io"
 
 const subLinks=[
@@ -27,22 +27,22 @@ const Navbar = () => {
     const { token } = useSelector((state) => state.auth);
     const { user } = useSelector((state) => state.profile);
     const { totalItems } = useSelector((state) => state.cart);
-    // const [subLinks, setSubLinks] = useState([]);
+    const [subLinks, setSubLinks] = useState([]);
 
-    // const fetchSubLinks = async () => {
-    //     try {
-    //         const result = await apiConnector("GET", categories.CATEGORIES_API);
-    //         console.log("Printing sublinks result", result);
-    //         setSubLinks(result.data.data);
-    //     }
-    //     catch (error) {
-    //         console.log("Could not fetch the cataog list");
+    const fetchSubLinks = async () => {
+        try {
+            const result = await APIConnector("GET", categories.CATEGORIES_API);
+            console.log("Printing sublinks result", result);
+            setSubLinks(result.data.data);
+        }
+        catch (error) {
+            console.log("Could not fetch the cataog list");
 
-    //     }
-    // }
-    // useEffect(() => {
-    //     // fetchSubLinks();
-    // }, [])
+        }
+    }
+    useEffect(() => {
+        // fetchSubLinks();
+    }, [])
 
     const matchRoute = (route) => {
         return matchPath({ path: route }, location.pathname);

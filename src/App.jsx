@@ -1,37 +1,9 @@
-
-// import './App.css'
-// import Home from "./pages/Home"
-// import {Route, Routes} from 'react-router-dom'
-// import Navbar from './components/common/Navbar'
-// function App() { 
-
-//   return (
-//   <div className="w-screen min-h-screen bg-richblack-900 flex flex-col  ">
-//     {/* Navbar */}
-//     <Navbar/>
-//     <Routes>
-//       <Route path="/" element={<Home/>}/>
-//       {/* <Route path="/login" element={<Login/>}/>
-//       <Route path="/signup" element={<Signup/>}/> */}
-//       {/* <Route/>
-//       <Route/>
-//       <Route/>
-//       <Route/> */}
-//     </Routes>
-//   </div>
-//   )
-// }
-
-// export default App
-
-
-
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/common/Navbar";
 import OpenRoute from './components/core/Auth/OpenRoute';
-import SignUp from "./pages/Signup";
+import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
@@ -48,7 +20,13 @@ import { ACCOUNT_TYPE } from "./utils/constants";
 import EnrolledCourse from "./components/core/Dashboard/EnrolledCourse";
 import { useSelector } from "react-redux";
 import AddCourse from "./components/core/Dashboard/AddCourse/index";
-
+import MyCourses from "./components/core/Dashboard/InstructorCourses/index";
+import EditCourse from "./components/core/Dashboard/EditCourse/index";
+import Catalog from "./pages/Catalog";
+import CourseDetails from "./pages/CourseDetails";
+import ViewCourse from "./pages/ViewCourse";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
+import Instructor from "./components/core/Dashboard/InstructorCourses/index";
 
 
 
@@ -67,17 +45,15 @@ function App() {
 
 
   return (
-    <div className='w-screen min-h-screen bg-richblack-900 flex flex-col font-inter'>
-
+    <div className='w-screen min-h-screen bg-richblack-900 flex flex-col font-stretch-semi-expanded'>
 
       <Navbar/>
 
-
-
-
-
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/catalog/:catalogName" element={<Catalog/>}/>
+        <Route path="/courses/:courseId" element={<CourseDetails/>}/>
+
 
         <Route 
           path="/signup"
@@ -124,9 +100,12 @@ function App() {
           }
         />
 
-
-        {/* About Page */}
-        <Route path="/about" element={<About/>}/>
+        <Route
+          path="/about"
+          element={
+              <About/>
+          }
+        />
 
         {/* Contact Page Route */}
         <Route path="/contact" element={<ContactUs/>}/>
@@ -166,7 +145,10 @@ function App() {
           {
             user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
+                <Route path="/dashboard/instructor" element={<Instructor/>}/>
+                <Route path="/dashboard/my-courses" element={<MyCourses/>}/>
                 <Route path="/dashboard/add-course" element={<AddCourse/>}/>
+                <Route path="/dashboard/edit-course/:courseId" element={<EditCourse/>}/>
 
               </>
             )
@@ -176,6 +158,31 @@ function App() {
         </Route>
 
 
+
+
+
+        {/* Nesting Routes for Video */}
+        <Route 
+          element={
+            <PrivateRoute>
+              <ViewCourse/>
+            </PrivateRoute>
+          }
+        >
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route 
+                  path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId" 
+                  element={<VideoDetails/>}  
+                />
+
+
+              </>
+            )
+          }
+
+        </Route>
 
 
 

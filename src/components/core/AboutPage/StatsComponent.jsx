@@ -12,7 +12,7 @@ const Stats = [
 const StatsComponent = () => {
 
   return (
-    <div className='w-11/12 mx-auto max-w-maxContent h-[100%] mt-20'>
+    <div className='w-11/12 mx-auto max-w-[1260px] h-[100%] mt-20'>
         <div className='flex flex-row flex-wrap justify-around items-center gap-5 py-[60px]'>
             {
                 Stats.map((element, index) => (

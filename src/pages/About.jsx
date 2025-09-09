@@ -16,11 +16,11 @@ import Footer from '../components/common/Footer'
 
 const About = () => {
   return (
-    <div className='w-full mx-auto justify-center text-white'>
+    <div className=' mx-auto justify-center text-white w-11/12 w-max-[1260px]'>
 
         {/* Section 1 */}
         <section className='bg-richblack-800'>
-            <div className='w-11/12 flex flex-col items-center mx-auto max-w-maxContent'>
+            <div className='w-11/12 flex flex-col items-center mx-auto max-w-[1260px]'>
                 <p className='text-center mt-10'>About Us</p>
                 <header className='text-3xl font-semibold mt-10'>
                     Driving Innovation in Online Education for a 
@@ -48,7 +48,7 @@ const About = () => {
 
         {/* Section 2 */}
         <section>
-            <div className='w-11/12 mx-auto mt-20 max-w-maxContent'>
+            <div className='w-11/12 mx-auto mt-20 max-w-[1260px]'>
                 <Quote/>
             </div>
         </section>
@@ -58,7 +58,7 @@ const About = () => {
 
         {/* Section 3 */}
         <section>
-            <div className='flex flex-col w-11/12 mx-auto max-w-maxContent mt-40'>
+            <div className='flex flex-col w-11/12 mx-auto max-w-[1260px] mt-40'>
                 {/* Founding story wala div */}
                 <div className='flex flex-col lg:flex-row justify-between gap-5'>
                     {/* Founding story left box */}
@@ -118,7 +118,7 @@ const About = () => {
 
 
         {/* Section 5 */}
-        <section className='mx-auto flex flex-col items-center justify-between gap-5'>
+        <section className='mx-auto flex flex-col items-center justify-between gap-5 mb-[140px]'>
             <LearningGrid/>
             <div className='p-5 lg:p-0'>
                 <ContactFormSection/>

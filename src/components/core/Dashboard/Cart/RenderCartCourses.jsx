@@ -30,12 +30,12 @@ const RenderCartCourses = () => {
                                     count={5}
                                     size={20}
                                     edit={false}
-                                    activeColor="ffd700"
+                                    activeColor="#ffd700"
                                     emptyIcon={<GiNinjaStar/>}
                                     fullIcon={<GiNinjaStar/>}
                                 />
 
-                                <span>{course?.ratingAndReviews?.lenght} Ratings</span>
+                                <span>{course?.ratingAndReviews?.length} Ratings</span>
                             </div>
                         </div>
                     </div>

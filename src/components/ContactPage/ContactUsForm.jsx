@@ -127,13 +127,13 @@ const ContactUsForm = () => {
 
 
       {/* phone number */}
-      <div>
+      <div className='flex flex-col gap-x-10'>
         <label htmlFor='phoneNumber' className='mb-1 text-[0.875rem] leading-[1.375rem]'>
           Phone Number <sup className='text-pink-200'>*</sup>
         </label>
-        <div className='flex flex-row gap-5 w-full'>
+        <div className='flex flex-row gap-5 w-full '>
           {/* dropdown */}
-          <div className='w-[12%]'>
+          <div className='flex  w-[15%] gap-5'>
             <select 
               name="dropdown" 
               id="dropdown" 
@@ -165,8 +165,8 @@ const ContactUsForm = () => {
               className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px]'
               {...register("phoneNumber", {
                 required: {value:true, message: "Please enter phone number"},
-                maxLength: {value:10, message: "Invlaid phone number"} ,
-                minLength: {value:8, message: "Invlaid phone number"} 
+                maxLength: {value:10, message: "Invalid phone number"} ,
+                minLength: {value:8, message: "Invalid phone number"} 
               })}
             />
             {
