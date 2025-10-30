@@ -6,6 +6,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailSender = require("../utils/mailSender");
 require("dotenv").config();
+const { passwordUpdated } = require("../mail/templates/passwordUpdate");
+
+
+
+
 
 //sendOTP
 exports.sendOTP= async (req,res)=>{
@@ -232,46 +237,128 @@ exports.login = async (req,res)=>{
 
 //changePassword
 exports.changePassword = async (req, res)=>{
-    try{
-        // fetch data from request body --> get old password, new password and confirm nnew password
-        const {email, oldPassword, password, confirmPassword} = req.body;
+    // try{
+    //     // fetch data from request body --> get old password, new password and confirm nnew password
+    //     const {email, oldPassword, password, confirmPassword} = req.body;
         
 
-        // validation
-        if(!email || !oldPassword || !password || !confirmPassword){
-            return res.status(403).json({
+    //     // validation
+    //     if(!email || !oldPassword || !password || !confirmPassword){
+    //         return res.status(403).json({
+    //             success: false,
+    //             message: "All fields are required",
+    //         });
+    //     }
+    //     if(password !== confirmPassword){
+    //         return res.status(400).json({
+    //             success: false,
+    //             message: "Password and confirm password value does not match, Please try again",
+    //         });
+    //     }
+
+    //     // update pwd in DB
+    //     const matchPassword = await User.find({password: oldPassword});
+    //     if(!matchPassword){
+    //         return res.status(403).json({
+    //             success: false,
+    //             message: "Please fill the correct password",
+    //         });
+    //     }
+    //     const hashedPassword = await bcrypt.hash(password, 10);
+    //     await User.findOneAndUpdate(
+    //         {email},
+    //         {password: hashedPassword},
+    //         {new: true}
+    //     );
+
+
+    //     // send email -- Password updated 
+    //     const title = "Password change request";
+    //     const body = "Your account password has successfully updated";
+    //     const mailResponse = await mailSender(email, title, body);
+    //     console.log("Email send successfully ", mailResponse);
+        
+    //     // return response
+    //     res.status(200).json({
+    //         success: true,
+    //         message: "Password changed successfully",
+    //     })
+
+    // }
+    // catch(err){
+    //     console.error(err);
+    //     res.status(500).json({
+    //         success: false,
+    //         message: "Error in changing password, Please try again later",
+    //     })
+    // }
+
+
+
+
+
+      try{
+        // Get user data from req.user
+        console.log("hello from controller change password");
+        const userDetails = await User.findById(req.user.id);
+
+        // Fetch data from request body --> get old password, new password and confirm new password
+        // const {oldPassword, newPassword, confirmNewPassword} = req.body;
+        const {oldPassword, newPassword} = req.body;
+        
+
+        // Validation old Password
+        const isPasswordMatch = await bcrypt.compare(
+            oldPassword,
+            userDetails.password,
+        )
+        if(!isPasswordMatch){
+            // if old password does not match, return 401 (unauthorized) error
+            return res.status(401).json({
                 success: false,
-                message: "All fields are required",
-            });
-        }
-        if(password !== confirmPassword){
-            return res.status(400).json({
-                success: false,
-                message: "Password and confirm password value does not match, Please try again",
-            });
+                message: "The password is incorrect"
+            })
         }
 
+        // Match new password and confirm new password
+        // if(newPassword !== confirmNewPassword){
+        //     // if new password and confirm new password does not match, return a 400 (Bad request) error
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "The Password and confirm Password does not match",
+        //     });
+        // }
+
         // update pwd in DB
-        const matchPassword = await User.find({password: oldPassword});
-        if(!matchPassword){
-            return res.status(403).json({
-                success: false,
-                message: "Please fill the correct password",
-            });
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await User.findOneAndUpdate(
-            {email},
-            {password: hashedPassword},
+        const encryptedPassword  = await bcrypt.hash(newPassword, 10);
+        const updatedUserDetails = await User.findByIdAndUpdate(
+            req.user.id,
+            {password: encryptedPassword},
             {new: true}
-        );
+        )
 
 
         // send email -- Password updated 
-        const title = "Password change request";
-        const body = "Your account password has successfully updated";
-        const mailResponse = await mailSender(email, title, body);
-        console.log("Email send successfully ", mailResponse);
+        try{
+            const emailResponse = await mailSender(
+                updatedUserDetails.email,
+                `Password Updated Successfully`,
+                passwordUpdated(
+                    updatedUserDetails.email,
+                    `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
+                )
+            );
+            console.log("Email sent successfully", emailResponse.response);
+        }
+        catch(err){
+            // If there's an error sending the email, log the error and return 500
+            console.log("Error occured while sending Email : ", err);
+            return res.status(500).json({
+                success: false,
+                message: "Error occured while sending Email",
+            });
+        }
+
         
         // return response
         res.status(200).json({
@@ -281,10 +368,10 @@ exports.changePassword = async (req, res)=>{
 
     }
     catch(err){
-        console.error(err);
+        console.error("Error while updating password", err);
         res.status(500).json({
             success: false,
-            message: "Error in changing password, Please try again later",
+            message: "Error in updating password, Please try again later",
         })
     }
 }

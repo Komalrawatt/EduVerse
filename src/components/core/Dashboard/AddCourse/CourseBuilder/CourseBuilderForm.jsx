@@ -25,9 +25,11 @@ const CourseBuilderForm = () => {
   const {token} = useSelector((state)=>state.auth);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    console.log("Updated")
-  },[course])
+  useEffect(() => {
+    console.log("Course:", course);
+    console.log("Course Content:", course?.courseContent);
+    console.log("Course Content Length:", course?.courseContent?.length);
+  }, [course])
 
 
   const cancelEdit = ()=>{
@@ -67,8 +69,7 @@ const CourseBuilderForm = () => {
           sectionName: data.sectionName,
           sectionId: editSectionName,
           courseId: course._id,
-        }, 
-        token
+        }, token
       )
     }
     else{
@@ -85,7 +86,7 @@ const CourseBuilderForm = () => {
     // update values
     if(result){
       dispatch(setCourse(result));
-      setEditCourse(null);
+      setEditSectionName(null);
       setValue("sectionName", "");
     }
 
@@ -157,11 +158,19 @@ const CourseBuilderForm = () => {
 
 
       
-      {
+      {/* {
         course?.courseContent?.length > 0 && (
           <NestedView handleChangeEditSectionName={handleChangeEditSectionName}/>
         )
-      }
+      } */}
+
+      {course?.courseContent?.length > 0 ? (
+    <div className="border border-richblack-700 p-4">
+        <NestedView handleChangeEditSectionName={handleChangeEditSectionName}/>
+    </div>
+) : (
+    <p className="text-richblack-500">No sections added yet</p>
+)}
 
       <div className='flex justify-end gap-x-3 mt-10'>
         <button

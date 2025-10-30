@@ -77,6 +77,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
     <div>
         <div>
             {
+        
                 course?.courseContent?.map((section)=>(
                     <details key={section._id} open>
                         {/* Render Section */}

@@ -3,7 +3,7 @@ import { settingEndpoints } from "../apis";
 import { APIConnector } from "../apiconnector";
 import { setUser } from "../../slices/profileSlice";
 import { logout } from "./authAPI";
-
+import { useDispatch } from "react-redux";
 
 
 
@@ -73,7 +73,7 @@ export function updateProfile(token, formData){
             // [ Something is wrong here ]
             const userImage = response?.data?.updatedUserDetails?.image ?
             response.data.updatedUserDetails.image : 
-            `https://api.dicebar.com/5.x/initials/svg?seed=${response.data.firstName} ${response.data.lastName}`
+            `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.firstName} ${response.data.lastName}`
 
             dispatch(setUser({...response.data.updatedUserDetails, image: userImage}));
             toast.success("Profile updated successfully")
@@ -97,6 +97,11 @@ export function updateProfile(token, formData){
 export async function changePassword(token, formData){
     const toastId = toast.loading("Loading...");
     try{
+         if (!token) {
+            // throw new Error("Token not found");
+            console.log("Token not found");
+        }
+        
         const response = await APIConnector("POST", CHANGE_PASSWORD_API, formData , 
             {Authorisation: `Bearer ${token}`}
         );
@@ -110,7 +115,7 @@ export async function changePassword(token, formData){
     }
     catch(err){
         console.log("CHANGE_PASSWORD_API ERROR....", err);
-        toast.error("Could not change password");
+        toast.error(err.message || "Could not change password");
     }
     toast.dismiss(toastId);
 }

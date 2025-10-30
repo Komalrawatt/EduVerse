@@ -91,7 +91,7 @@ const RenderSteps = () => {
         {/* Step 1-2-3    --> Form */}
         {step === 1 && <CourseInformationForm/>}
         {step === 2 && <CourseBuilderForm/>}
-        {/* {step === 3 && <PublishForm/>} */}
+        {step === 3 && <PublishForm/>}
     </>
   )
 }

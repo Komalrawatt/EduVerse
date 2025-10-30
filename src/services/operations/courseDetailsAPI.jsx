@@ -109,7 +109,8 @@ export const fetchCourseCategories = async()=>{
             throw new Error(response.data.message);
         }
 
-        result = response?.data?.data
+        result = response?.data?.allCategory;
+        console.log("result : ", result);
     }
     catch(err){
         console.log("COURSE_CATEGORIES_API ERROR...",err);
@@ -140,6 +141,9 @@ export const addCourseDetails = async(data, token)=>{
                 Authorisation : `Bearer ${token}`
             }
         );
+
+
+
         console.log("CREATE_COURSE_API RESPONSE...",response);
 
         if(!response?.data?.success){
@@ -147,7 +151,7 @@ export const addCourseDetails = async(data, token)=>{
         }
 
         toast.success("Course details added successfully");
-        result = response?.data?.data
+        result = response?.data?.data;
     }
     catch(err){
         console.log("CREATE_COURSE_API ERROR...",err);

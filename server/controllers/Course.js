@@ -4,9 +4,6 @@ const User =require("../models/User");
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
 
 
-
-
-
 // createCourse handler function
 exports.createCourse = async(req,res)=>{
     try{
@@ -69,7 +66,7 @@ exports.createCourse = async(req,res)=>{
             instructions: instructions,
         });
         
-        
+        console.log("New Course : ", newCourse);
         // add the new course to the User Schema of Instructor
         await User.findByIdAndUpdate(
             {_id: instructorDetails._id},

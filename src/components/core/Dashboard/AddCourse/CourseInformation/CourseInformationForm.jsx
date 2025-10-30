@@ -39,6 +39,8 @@ const CourseInformationForm = () => {
         const getCategories = async ()=>{
             setLoading(true);
             const categories = await fetchCourseCategories();
+            console.log("Categories : ", categories);
+            
             if(categories.length > 0){
                 setCourseCategories(categories);
             }
@@ -145,6 +147,18 @@ const CourseInformationForm = () => {
 
 
         setLoading(true);
+        console.log("formData : ", formData);
+        
+        // Check if token exists before making the API call
+        if (!token) {
+            toast.error("Please login first");
+            return;
+        }
+
+        // Add console.log to debug
+        console.log("Token:", token);
+        console.log("Form Data:", Object.fromEntries(formData.entries()));
+
         const result = await addCourseDetails(formData, token);
         console.log("Result" , result);
         if(result){

@@ -7,8 +7,11 @@ import { Provider } from 'react-redux'
 import {Toaster} from "react-hot-toast"
 import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './reducer/indexReducer.jsx'
+
+
 const store=configureStore({
   reducer:rootReducer,
+
 })
 
 createRoot(document.getElementById('root')).render(

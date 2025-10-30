@@ -28,6 +28,8 @@ const UpdatePassword = () => {
 
     const submitPasswordForm = async(data)=>{
         try{
+            // console.log("DATA...", data);
+            // console.log("TOKEN...", token);
             dispatch(changePassword(token, data));
         }
         catch(err){
